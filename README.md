@@ -36,7 +36,7 @@ The methodology of the present study is based on Rollin’s Foundational Methodo
 
 1. **Analytical approach**: Building and evaluation of regression model.
 2. **Data requirements**: Stock daily values from Jan 2019 to Dec 2022.
-3. **Data collection**: Data was retrieved from the [Yahoo Finance's API for Ptyhon](https://pypi.org/project/yfinance/)
+3. **Data collection**: Data was retrieved from the [Yahoo Finance's API for Python](https://pypi.org/project/yfinance/).
 4. **Data exploration**: Data was explored with Python 3 and its libraries Numpy, Pandas, Matplotlib and Seaborn.
 5. **Data preparation**: The calculation of the daily returns and the optimization of the portfolio using the Markowitz's methodology (Starke, Edwards & Wiecki, 2016) was carried out with Python 3 and its libraries Numpy, Pandas, Matplotlib and Cvxopt.
 5. **Data modeling**: A RNN was created and trained in Python 3 and its libraries Numpy, Pandas, Sklearn, Keras and Tensorflow were utilized.
