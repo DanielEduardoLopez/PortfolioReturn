@@ -19,7 +19,7 @@ Even though the Time Series Analysis has been traditionally used to forecast por
 
 **Recurrent Neural Networks (RNN)** are a "a class of neural networks that are naturally suited to processing time-series data and other sequential data" (DiPietro & Hager, 2020). In this sense, this kind of Artificial Neural Networks (ANN) allows to process variable-length sequences, in which the recurrency is expressed by using the output of a given neuron(s) as feedback to the neuron(s) of the former layer (DiPietro & Hager, 2020; Gupta & Raza, 2019). This lets the RNN to "learn" patterns and trends from the data.
 
-For simplicity, in the present project, only 10 stocks selected from the biggest companies in the world by market capitalization (Johnston, 2022) were used to build the portfolio, with the goal of using RNN to predict its return and assess the accuracy of said prediction.
+For simplicity, in the present project, only 10 stocks selected from the biggest companies in the world by market capitalization (Johnston, 2022) were used to build the portfolio, with the goal of using RNN to predict its returns over time and assess the accuracy of the predictions.
 
 ____
 ### **2. General Objective**
