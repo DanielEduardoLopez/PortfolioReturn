@@ -78,5 +78,5 @@ ___
 ### **9. Description of Files in Repository**
 File | Description 
 --- | --- 
-1_PortfolioReturn_DataCollection.ipynb | Notebook with the Python code for collecting the stock value data.
+1_PortfolioReturn_DataCollectionPrep.ipynb | Notebook with the Python code for collecting the stock value data, calculating the daily returns and optimizing the portfolio.
 
