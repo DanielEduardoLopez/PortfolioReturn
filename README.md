@@ -148,4 +148,4 @@ ___
 File | Description 
 --- | --- 
 1_PortfolioReturn_DataCollectionPrep.ipynb | Notebook with the Python code for collecting the stock value data, calculating the daily returns and optimizing the portfolio.
-
+Hist_Opt_Returns.csv | Historical returns of the optimized portfolio in a CSV format.
