@@ -35,8 +35,8 @@ ____
 The methodology of the present study is based on Rollin’s Foundational Methodology for Data Science (Rollins, 2015):
 
 1. **Analytical approach**: Building and evaluation of regression model.
-2. **Data requirements**: Stock daily values from Jan 2019 to Dec 2022.
-3. **Data collection**: Data was retrieved from the [Yahoo Finance's API for Python](https://pypi.org/project/yfinance/).
+2. **Data requirements**: Stock daily values from 2020/01/01 to 2023/01/09.
+3. **Data collection**: Data was retrieved from Yahoo Finance by using the Python library [yfinance](https://pypi.org/project/yfinance/).
 4. **Data exploration**: Data was explored with Python 3 and its libraries Numpy, Pandas, Matplotlib and Seaborn.
 5. **Data preparation**: The calculation of the daily returns and the optimization of the portfolio using the Markowitz's methodology (Starke, Edwards & Wiecki, 2016) was carried out with Python 3 and its libraries Numpy, Pandas, Matplotlib and Cvxopt.
 5. **Data modeling**: A RNN was created and trained in Python 3 and its libraries Numpy, Pandas, Sklearn, Keras and Tensorflow were utilized.
@@ -58,7 +58,7 @@ For simplicity, in the present project, only 10 stocks selected from the biggest
 9. Taiwan Semiconductor Manufacturing Co. Ltd. (**TSM**)
 10. Meta Platforms Inc. (**META**)
 
-On the other hand, stock value data was retrieved from the previous three years, i.e., **from 2020-01-01 to 2023-01-09** by using the python library [yfinance](https://pypi.org/project/yfinance/).
+On the other hand, stock value data was retrieved from the previous three years, i.e., **from 2020/01/01 to 2023/01/09** by using the Python library yfinance.
 
 #### **6.2 Data Exploration**
 Stock value data retrieved from Yahoo Finance was explored through some simple visualizations.
