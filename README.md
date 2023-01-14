@@ -46,13 +46,82 @@ ___
 ### **6. Main Results**
 
 #### **6.1 Data Collection**
-Pending...
+For simplicity, in the present project, only 10 stocks selected from the biggest companies in the world by market capitalization <a href="https://www.investopedia.com/biggest-companies-in-the-world-by-market-cap-5212784">(Johnston, 2022)</a> were used to build the portfolio:
+1. Apple Inc. (**AAPL**)
+2. Saudi Aramco (**2222.SR**) 
+3. Microsoft Corp. (**MSFT**)
+4. Alphabet Inc. (**GOOGL**)
+5. Amazon.com Inc. (**AMZN**)
+6. Tesla Inc. (**TSLA**)
+7. Berkshire Hathaway Inc. (**BRK-B**)
+8. NVIDIA Corp. (**NVDA**)
+9. Taiwan Semiconductor Manufacturing Co. Ltd. (**TSM**)
+10. Meta Platforms Inc. (**META**)
+
+On the other hand, stock value data was retrieved from the previous three years, i.e., **from 2020-01-01 to 2023-01-09** by using the python library [yfinance](https://pypi.org/project/yfinance/).
 
 #### **6.2 Data Exploration**
-Pending...
+Stock value data retrieved from Yahoo Finance was explored through some simple visualizations.
+
+<p align="center">
+	<img src="Images/Fig1_HistStockCloseValues.png?raw=true" width=80% height=80%>
+</p>
+
+The EDA suggests that **the market has been bearish since mids 2021**. At the end of 2022 and begining of 2023, all stocks but BRK-B have decreased their value to the 2020 levels.
+
+Notwithstanding the above, the data collected from *Yahoo Finance* through **yfinance** seems to be complete and consistent.
 
 #### **6.3 Data Preparation**
-Pending...
+Stock data value was cleaned and processed to calculate the **daily close value returns** which serves as a basis for the portfolio optimization. The **descriptive statistics of the daily returns** for each asset are as follows:
+
+AAPL |	AMZN |	BRK-B |	GOOGL |	META |	MSFT |	NVDA |	TSLA |	TSM |	2222.SR
+:---: |	:---: |	:---: |	:---: |	:---: |	:---: |	:---: |	:---: |	:---: |	:---:
+count |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000 |	727.000000
+mean |	0.001057 |	0.000202 |	0.000607 |	0.000586 |	-0.000143 |	0.000728 |	0.001907 |	0.002920 |	0.000731 |	0.000194
+std |	0.024311 |	0.025279 |	0.016443 |	0.022033 |	0.031346 |	0.022239 |	0.035705 |	0.046334 |	0.025512 |	0.012754
+min |	-0.128647 |	-0.140494 |	-0.095921 |	-0.116341 |	-0.263901 |	-0.147390 |	-0.184521 |	-0.210628 |	-0.140341 |	-0.090909
+25% |	-0.011410 |	-0.013169 |	-0.007101 |	-0.009822 |	-0.013412 |	-0.009711 |	-0.018861 |	-0.022199 |	-0.014852 |	-0.004307
+50% |	0.000246 |	0.000529 |	0.000621 |	0.001054 |	0.000648 |	0.000681 |	0.002897 |	0.001768 |	-0.000232 |	0.000000
+75% |	0.014410 |	0.012433 |	0.008086 |	0.012451 |	0.015185 |	0.012255 |	0.022738 |	0.024981 |	0.014375 |	0.004283
+max |	0.198469 |	0.135359 |	0.116099 |	0.092412 |	0.175936 |	0.142169 |	0.171564 |	0.198949 |	0.126522 |	0.098765
+
+**TSLA** had the **highest average return** (0.292%); whereas **META** has **the lowest one** (-0.014%) in the analyzed time period.
+
+On the other hand, **TSLA** also exhibited the **largest volatility** (4.633%); whereas **2222.SR** exhibited **the lowest one** (1.275%).
+
+Thus, even though the **TSLA** has yielded the highest average return in the last three years, it comes with a high risk. In this sense, the Beta of this company is 2.03 according to <a href="https://finance.yahoo.com/quote/TSLA?p=TSLA&.tsrc=fin-srch">Yahoo Finance</a>, which means that TSLA overreacts to the changes in the market.
+
+Moreover, the **returns over time** for each stock are shown below:
+
+<p align="center">
+	<img src="Images/Fig2_HistStockReturns.png?raw=true" width=80% height=80%>
+</p>
+
+Indeed, from the figures above, **TSLA** and **NVDA** daily returns are **the most volatile**; whereas the **2222.SR** and **BRK-B** ones are **the less**.
+
+Then, once the daily returns were calculated, the weight of each stock was optimized in the portfolio to maximize the return thereof using Convex optimization. This part of the analysis is based on <a href="https://github.com/quantopian/research_public/blob/master/research/Markowitz-blog.ipynb">Starke, Edwards & Wiecki (2016)</a>. The **Efficient Frontier** chart is as follows:
+
+<p align="center">
+	<img src="Images/Fig3_EfficientFrontier.png?raw=true" width=60% height=60%>
+</p>
+
+And the **weights of each asset** in the portfolio are shown below:
+
+<p align="center">
+	<img src="Images/Fig4_PortfolioComposition.png?raw=true" width=60% height=60%>
+</p>
+
+Interestingly, the portfolio optimization yielded that most of the portfolio should be **TSLA** stocks (about 99%). 
+
+Even though these results contradicts the idea of having a diversified portfolio, for the purposes of the present analysis the outcome from the optimization algorithm were used in the later steps of this project.
+
+After the portfolio was optimized, the historical returns thereof were calculated based on the stock close value over time and the optimized weights. So, the historical returns of the optimized portfolio are as follows:
+
+<p align="center">
+	<img src="Images/Fig5_HistReturnsOptPort.png?raw=true" width=60% height=60%>
+</p>
+
+As expectable, the historical returns of the optimized portfolio mirror the behavior of **TSLA** as most of the portfolio comprises such asset.
 
 #### **6.4 Data Modeling**
 Pending...
