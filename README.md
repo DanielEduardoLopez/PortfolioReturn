@@ -284,4 +284,5 @@ File | Description
 2_PortfolioReturn_DataModelingEval.ipynb | Notebook with the Python code for modeling and evaluating the RNN for predicting the optimized portfolio returns.
 2_PortfolioReturn_DataModelingEval.html | Notebook in HTML format.
 Hist_Opt_Returns.csv | Historical returns of the optimized portfolio in a CSV format.
+Hist_Opt_Values.csv | Historical close values of the optimized portfolio in a CSV format.
 requirements.csv | Python requirements file.
