@@ -261,7 +261,9 @@ As expectable, the RMSE and MAE stabilized after some epochs. However, it is not
 
 ___
 ### **7. Conclusions**
-Pending...
+The trained model was unable to recognize a pattern from the historical returns of the optimized portfolio. In this sense, even though low values of RMSE and MAE were obtained due to the scale of the returns, a negative $r^{2}$ was yielded by the model. In consequence, the model generated worse predictions than the mean of the historical returns. 
+
+In this sense, it is suggested to train the model using the historical values of the optimized portfolio instead of the returns. Other options to explore are to change the size of the dataset windows and the architecture of the model.
 
 ___
 ### **8. Bibliography**
