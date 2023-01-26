@@ -240,7 +240,24 @@ In view of the plot above, the RNN has predicted a constant return of 0.7362% fo
 
 
 #### **6.5 Evaluation**
-Pending...
+The predictions of the Recurrent Neural Network were evaluated using the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination
+( $r^{2}$ ).
+
+Metric | Value
+:---: | :---:
+Mean Absolute Error | 0.03362
+Root Mean Squared Error | 0.04421
+$r^{2}$ | -0.20520
+
+Even though the MAE and the RMSE are **low** in absolute terms, it is insightful that the $r^{2}$ is **negative**, which implies that the model yields worst results than the mean of the test set. So, as suggested by the plot of the predicted versus the actual returns, the model cannot be deemed as satisfactory.
+
+On the other hand, the plot of the metrics over epochs is as follows:
+
+<p align="center">
+	<img src="Images/Fig9_MetricsReturns.png?raw=true" width=60% height=60%>
+</p>
+
+As expectable, the RMSE and MAE stabilized after some epochs. However, it is noteworthy that the $r^{2}$ is always negative and have a considerable fluctuation over the epochs. Again, this suggests that the model is unsatisfactory.
 
 ___
 ### **7. Conclusions**
@@ -262,4 +279,7 @@ File | Description
 --- | --- 
 1_PortfolioReturn_DataCollectionPrep.ipynb | Notebook with the Python code for collecting the stock value data, calculating the daily returns and optimizing the portfolio.
 1_PortfolioReturn_DataCollectionPrep.html | Notebook in HTML format.
+2_PortfolioReturn_DataModelingEval.ipynb | Notebook with the Python code for modeling and evaluating the RNN for predicting the optimized portfolio returns.
+2_PortfolioReturn_DataModelingEval.html | Notebook in HTML format.
 Hist_Opt_Returns.csv | Historical returns of the optimized portfolio in a CSV format.
+requirements.csv | Python requirements file.
