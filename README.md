@@ -35,12 +35,12 @@ ____
 The methodology of the present study is based on Rollin’s Foundational Methodology for Data Science (Rollins, 2015):
 
 1. **Analytical approach**: Building and evaluation of regression model.
-2. **Data requirements**: Stock daily values from 2020/01/01 to 2023/01/09.
+2. **Data requirements**: Stock daily values from 2020/01/01 to 2023/01/01.
 3. **Data collection**: Data was retrieved from Yahoo Finance by using the Python library [yfinance](https://pypi.org/project/yfinance/).
 4. **Data exploration**: Data was explored with Python 3 and its libraries Numpy, Pandas, Matplotlib and Seaborn.
 5. **Data preparation**: The calculation of the daily returns and the optimization of the portfolio using the Markowitz's methodology (Starke, Edwards & Wiecki, 2016) was carried out with Python 3 and its libraries Numpy, Pandas, Matplotlib and Cvxopt.
-5. **Data modeling**: A RNN was created and trained in Python 3 and its libraries Numpy, Pandas, Sklearn, Keras and Tensorflow were utilized.
-6. **Evaluation**: The model predictions were primarily evaluated through the R<sup>2</sup>, RMSE and MAE.
+5. **Data modeling**: Two RNNs were created and trained in Python 3 and its libraries Keras and Tensorflow. The *first model* was trained using the historical returns of the optimized portfolio, whereas the *second model* was trained using the historical values of the optimized portfolio. So, in the *second model*, the returns were estimated based on the predicted portfolio values.
+6. **Evaluation**: The comparison among predicted and actual returns were primarily evaluated through the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination ( $r^{2}$ ).
 
 ___
 ### **6. Main Results**
@@ -123,6 +123,14 @@ After the portfolio was optimized, the historical returns thereof were calculate
 
 As expectable, the historical returns of the optimized portfolio mirror the behavior of **TSLA** as most of the portfolio comprises such asset.
 
+Finally, the historical values of the optimized portfolio are as follows:
+
+<p align="center">
+	<img src="Images/Fig6_HistValuesOptPort.png?raw=true" width=60% height=60%>
+</p>
+
+Likewise, the historical values of the optimized portfolio mirror the performance of **TSLA** for the reasons stated above.
+
 #### **6.4 Data Modeling**
 A Recurrent Neural Network was built and trained to predict the return of the optimized stocks portfolio. The following architecture was proposed:
 
@@ -136,7 +144,9 @@ A Recurrent Neural Network was built and trained to predict the return of the op
 8. An **output layer** of 1 node.
 9. An **Lambda layer** to scale the output by 100 units.
 
-The code of the model in Python is as follows:
+Both the *first model*, trained directly with the historical return data from the optimized portfolio, and the *second model*, trained with the historical value data from the optimized portfolio, used the same architecture described above.
+
+The code for the models in Python is as follows:
 ```python
 # Model
 
@@ -176,48 +186,90 @@ Model: "sequential"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- lambda_4 (Lambda)           (None, None, 1)           0         
+ lambda (Lambda)             (None, None, 1)           0         
                                                                  
- bidirectional_4 (Bidirectio  (None, None, 512)        528384    
+ bidirectional (Bidirectiona  (None, None, 512)        528384    
+ l)                                                              
+                                                                 
+ bidirectional_1 (Bidirectio  (None, None, 256)        656384    
  nal)                                                            
                                                                  
- bidirectional_5 (Bidirectio  (None, None, 256)        656384    
+ bidirectional_2 (Bidirectio  (None, 128)              164352    
  nal)                                                            
                                                                  
- bidirectional_6 (Bidirectio  (None, 128)              164352    
- nal)                                                            
+ dense (Dense)               (None, 32)                4128      
                                                                  
- dense_7 (Dense)             (None, 32)                4128      
+ dropout (Dropout)           (None, 32)                0         
                                                                  
- dropout_5 (Dropout)         (None, 32)                0         
+ dense_1 (Dense)             (None, 128)               4224      
                                                                  
- dense_8 (Dense)             (None, 128)               4224      
+ dropout_1 (Dropout)         (None, 128)               0         
                                                                  
- dropout_6 (Dropout)         (None, 128)               0         
-                                                                 
- dense_9 (Dense)             (None, 64)                8256      
+ dense_2 (Dense)             (None, 64)                8256      
                                                                  
 ...
 Total params: 1,365,793
 Trainable params: 1,365,793
 Non-trainable params: 0
 ```
+On the other hand, regarding the dataset, this was created based on time windows of size 50.
 
-Furthermore, in order to get better predictions, the **learning rate was optimized**. To do so, a pivot or initial learning rate of $1\times10^{-8}$ was defined, which was slightly incremented by each epoch with the help of a learning rate scheduler from Tensorflow. 
+```python
+def windowed_dataset(series, window_size = 20, batch_size = 32, shuffle_buffer = 1000):
+  """
+  Creates a windowed dataset of a time series for the input into a RNN model with Tensorflow.
 
-On the other hand, as optimizer, the **Stochastic Gradient Descent** algorithm was used with an arbitrarily momentum of 0.9 in order to help accelerate the gradient vectors in the right directions and lead the model to a faster learning.
+  Parameters
 
-Moreover, in order to reduce the sensitivity to outliers wich are present in the dataset, the <a href="https://en.wikipedia.org/wiki/Huber_loss">**Huber loss function**</a> was used in the model compilation. 
+  series: Numpy series with the time series data.
+  window_size: Size of the subset of elements of the input time series data.
+  batch_size: Size of the batch.
+  shuffle_buffer: Buffer size. Should be greater than or equal to the lenght of the dataset.
 
-The Learning Rate vs. Loss plot is shown below:
+  Returns
+
+  dataset: Tensorflow dataset object.
+
+  """
+  dataset = tf.data.Dataset.from_tensor_slices(series)
+  dataset = dataset.window(window_size + 1, shift=1, drop_remainder=True)
+  dataset = dataset.flat_map(lambda window: window.batch(window_size + 1))
+  dataset = dataset.shuffle(shuffle_buffer).map(lambda window: (window[:-1], window[-1]))
+  dataset = dataset.batch(batch_size).prefetch(1)
+
+  return dataset
+
+# Creation of the input object dataset for the RNN model
+series = df['CloseValue'].values
+
+window_size = 50
+batch_size = 32
+shuffle_buffer_size = 1000
+
+dataset = windowed_dataset(series, window_size, batch_size, shuffle_buffer_size)
+```
+
+Then, the **learning rate was optimized**. To do so, a pivot or initial learning rate of $1\times10^{-8}$ was defined, which was slightly incremented by each epoch with the help of the learning rate scheduler from Tensorflow. Both models were trained over 100 epochs with the appropriate callbacks and picking up the value that reduced the loss function. In this sense, the learning rate vs. the loss plot for the *first model* is shown below:
 
 <p align="center">
 	<img src="Images/Fig7_LearningRateOpt.png?raw=true" width=60% height=60%>
 </p>
 
-Thus, from the plot above,  the approximate best learning rate is $5\times10^{-5}$.
+Thus, from the plot above, the approximate best learning rate was $5\times10^{-5}$ for the *first model*.
 
-Once the architecture of the RNN was defined and an optimal learning rate was selected, the model was trained using the **Huber loss** as the loss function, the **Stochastic Gradient Descent with Momentum** as the optimizer and keeping track of the **MSE**, **MAE**, and $r^2$ metrics too. 300 epochs were used.
+On the other hand, the learning rate vs. the loss plot for the *second model* is shown below:
+
+<p align="center">
+	<img src="Images/Fig10_LearningRateOptValues.png?raw=true" width=60% height=60%>
+</p>
+
+Thus, from the plot above, the approximate best learning rate was $1\times10^{-5}$ for the *second model*.
+
+On the other hand, as optimizer, the **Stochastic Gradient Descent** algorithm was used with an arbitrarily momentum of 0.9 in order to help accelerate the gradient vectors in the right directions and lead the model to a faster learning.
+
+Moreover, in order to reduce the sensitivity to outliers wich are present in the dataset, the <a href="https://en.wikipedia.org/wiki/Huber_loss">**Huber loss function**</a> was used in the model compilation. 
+
+After the models architecture was defined and the learning rates were optimized, the models were trained over 300 epochs using the **Huber loss** as the loss function, the **Stochastic Gradient Descent with Momentum** as the optimizer and keeping track of the **MSE**, **MAE**, and $r^2$ metrics.
 
 ```python
 # Model compilation
@@ -230,40 +282,88 @@ history = model.fit(dataset, epochs = 300, verbose = 1)
 
 ```
 
-After the model was trained, to generate the predictions, the original time series data was first split into a training and a testing set. To do so, the first 80% of the data was used for the training set and the remaining 20% for the testing set. Then, the forecasting was performed with predict method. The results are shown below:
+After the model was trained, to generate the predictions, the original time series data was first split into a training and a testing set. To do so, the first 80% of the data was used for the training set (from Jan 2020 to Jun 2022) and the remaining 20% for the testing set (from Jun 2022 to Jan 2023). Then, the forecasting was performed with *predict* method. The results for the *first model* are shown below:
 
 <p align="center">
 	<img src="Images/Fig8_ReturnPredictions.png?raw=true" width=60% height=60%>
 </p>
 
-In view of the plot above, the RNN has predicted a constant return of 0.7362% for all the time points, which suggests that the model was not able to catch a pattern from the data. In comparison, the mean return of the portfolio was 0.292%. So, the RNN yielded a higher prediction. 
+In view of the plot above, the RNN has predicted a constant return of 5.585% for all the time points, which suggests that the *first model* was not able to catch a pattern from the data. In comparison, the mean return of the portfolio was 0.292%. So, the RNN yielded a higher prediction. 
+
+To try to improve the bad result obtained with the *first model*, the *second model* with the same architecture was created and trained using the historical values of the optimized portfolio instead of the historical returns. Its predictions for the values of the portfolio are shown below:
+
+<p align="center">
+	<img src="Images/Fig11_ReturnPredictionsValues.png?raw=true" width=60% height=60%>
+</p>
+
+In view of the plot above, the *second model* has been able to yield predictions that are closer to the actual values of the optimized portfolio. This suggests that the RNN successfully identified and learned patterns from the input data.
+
+Then, the returns were calculated based on the predicted values of the portfolio according to the *second model*:
+
+<p align="center">
+	<img src="Images/Fig13_ReturnValuePredictions.png?raw=true" width=60% height=60%>
+</p>
+
+So, in view of the figure above, by training the *second model* with the historical value data instead of the historical return data, the proposed architecture was able to yield predictions that somewhat resemble the actual returns of the portfolio.
 
 
 #### **6.5 Evaluation**
-The predictions of the Recurrent Neural Network were evaluated using the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination
+The predictions of the Recurrent Neural Networks were evaluated using the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination
 ( $r^{2}$ ).
+
+The results for the *first model* trained directly with the historical return data are as follows:
 
 Metric | Value
 :---: | :---:
-Mean Absolute Error | 0.03362
-Root Mean Squared Error | 0.04421
-$r^{2}$ | -0.20520
+Root Mean Squared Error (RMSE) | 0.07285
+Mean Absolute Error (MAE) | 0.06330
+Coefficient of Determination ( $r^{2}$ ) | -2.27236
 
-Even though the MAE and the RMSE are **low** in absolute terms, it is insightful that the $r^{2}$ is **negative**, which implies that the model yields worst results than the mean of the test set. So, as suggested by the plot of the predicted versus the actual returns, the model cannot be deemed as satisfactory.
+Even though the MAE and the RMSE are **low** in absolute terms, it is insightful that the $r^{2}$ is **negative**, which implies that the model yields worst results than the mean of the test set. So, as suggested by the plot of the predicted versus the actual returns, the **first model** cannot be deemed as satisfactory.
 
-On the other hand, the plot of the metrics over epochs is as follows:
+On the other hand, the plot of the metrics over epochs for the **first model** is as follows:
 
 <p align="center">
 	<img src="Images/Fig9_MetricsReturns.png?raw=true" width=60% height=60%>
 </p>
 
-As expectable, the RMSE and MAE stabilized after some epochs. However, it is noteworthy that the $r^{2}$ is always negative and have a considerable fluctuation over the epochs. Again, this suggests that the model is unsatisfactory.
+As expectable, the RMSE and MAE stabilized after some epochs. However, it is noteworthy that the $r^{2}$ is always negative and have a considerable fluctuation over the epochs. Again, this suggests that the *first model* is unsatisfactory. 
+
+Regarding the *second model*, which was trained with the historical value data instead of using directly the historical return data, its performance for predicting the values of the portfolio is shown below:
+
+Metric | Value
+:---: | :---:
+Root Mean Squared Error (RMSE) | 24.57823
+Mean Absolute Error (MAE) | 21.28902
+Coefficient of Determination ( $r^{2}$ )  | 0.75589
+
+Please note that the above results do not assess the accuracy of the model in terms of the actual returns but the actual values. Both the RMSE and the MAE converged to a similar value. And the estimated $r^{2}$ was of about 76%. So, the model was able to yield acceptable predictions of the value of the optimized portfolio. 
+
+Likewise, the plot of the metrics over epochs for the *second model* is as follows:
+
+<p align="center">
+	<img src="Images/Fig12_MetricsReturnsValues.png?raw=true" width=60% height=60%>
+</p>
+
+As expectable, all the evaluation metrices stabilized after some epochs. However, it is noteworthy that the $r^{2}$ is close to one after 150 epochs, which suggests that the model is able to yield much better predictions than the mean of the historical data.
+
+Then, in order to be able to compare the accuracy of the model in terms of the **returns** of the optimized portfolio, the RMSE, MAE and $r^{2}$ were calculated based on the actual and predicted returns:
+
+Metric | Value
+:---: | :---:
+Root Mean Squared Error (RMSE) | 0.04300
+Mean Absolute Error (MAE) | 0.03538
+Coefficient of Determination ( $r^{2}$ ) | -0.19192
+
+Unfortunately, when comparing the predicted with the actual returns, the evaluation metrics yielded low scores. It is noteworthy that the $r^{2}$ had a negative value, which indicated that the predicted returns were worse than the average of the historical values too. However, it is also important to stress that the return evaluation metrics were better for the *second model* than for the *first one*. So, the *second model* still represents an improvement over the model trained directly with the historical return data. 
 
 ___
 ### **7. Conclusions**
-The trained model was unable to recognize a pattern from the historical returns of the optimized portfolio. In this sense, even though low values of RMSE and MAE were obtained due to the scale of the returns, a negative $r^{2}$ was yielded by the model. In consequence, the model generated worse predictions than the mean of the historical returns. 
+Unlike in the model trained directly with the return data, the RNN model trained with the historical values of the optimized portfolio was able to recognize a pattern thereof.  In this sense, low scores of RMSE and MAE were obtained and an acceptable $r^{2}$ of about 75% was yielded by the model, which was higher than the one hypothesed at the begining of this project. In consequence, the model generated better predictions than using the mean of the historical values of the portfolio.
 
-In this sense, it is suggested to train the model using the historical values of the optimized portfolio instead of the returns. Other options to explore are to change the size of the dataset windows and the architecture of the model.
+Notwithstanding with the above, when comparing the estimated returns based on the predicted values of the portfolio with the actual returns thereof, the $r^{2}$ yielded a much lower score of about -0.192, which was still better than the $r^{2}$ of about -2.272 obtained when using the return data directly. 
+
+In this sense, the model still has important opportunities areas and as future perspectives, it is suggested to perform more epochs to allow the model to better learn the data, to fine tune the hyperparameters thereof, to change the size of the windowed dataset, and to further change the architecture of the model if necessary. The purpose is that by predicting the futures values of the portfolio with a higher accuracy, the more accurate the predicted returns will be.
 
 ___
 ### **8. Bibliography**
@@ -281,8 +381,10 @@ File | Description
 --- | --- 
 1_PortfolioReturn_DataCollectionPrep.ipynb | Notebook with the Python code for collecting the stock value data, calculating the daily returns and optimizing the portfolio.
 1_PortfolioReturn_DataCollectionPrep.html | Notebook in HTML format.
-2_PortfolioReturn_DataModelingEval.ipynb | Notebook with the Python code for modeling and evaluating the RNN for predicting the optimized portfolio returns.
+2_PortfolioReturn_DataModelingEval.ipynb | Notebook with the Python code for modeling and evaluating the RNN for predicting the optimized portfolio returns based on the historical return data.
 2_PortfolioReturn_DataModelingEval.html | Notebook in HTML format.
+3_PortfolioReturn_DataModelingEval.ipynb | Notebook with the Python code for modeling and evaluating the RNN for predicting the optimized portfolio returns based on the historical value data.
+3_PortfolioReturn_DataModelingEval.html | Notebook in HTML format.
 Hist_Opt_Returns.csv | Historical returns of the optimized portfolio in a CSV format.
 Hist_Opt_Values.csv | Historical close values of the optimized portfolio in a CSV format.
 requirements.csv | Python requirements file.
