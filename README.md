@@ -6,6 +6,8 @@
 # Prediction of a Stocks Portfolio Return using Recurrent Neural Networks
 #### By Daniel Eduardo López
 
+**30/01/2023**
+
 **[LinkedIn](https://www.linkedin.com/in/daniel-eduardo-lopez)**
 
 **[Github](https://github.com/DanielEduardoLopez)**
