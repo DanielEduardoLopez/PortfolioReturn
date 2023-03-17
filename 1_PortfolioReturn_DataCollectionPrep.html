@@ -36,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -14620,6 +14621,32 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <hr>
+<h2 id="Table-of-Contents"><strong>Table of Contents</strong><a class="anchor-link" href="#Table-of-Contents">&#182;</a></h2><hr>
+<ol>
+<li><a href="#goal"><strong>Goal</strong></a><br></li>
+<li><a href="#collection"><strong>Data Collection</strong></a><br>  </li>
+<li><a href="#eda"><strong>Data Exploration (EDA)</strong></a><br></li>
+<li><a href="#preparation"><strong>Data Preparation</strong></a><br><ul>
+<li><a href="#cleaning"><strong>Data Cleaning</strong></a><br></li>
+<li><a href="#returns"><strong>Calculation of the Daily Returns</strong></a><br></li>
+<li><a href="#optimization"><strong>Optimization of the Stocks Portfolio</strong></a><br></li>
+<li><a href="#historical"><strong>Historical Returns of the Optimized Portfolio</strong></a><br></li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="goal"></a></p>
+<hr>
 <h2 id="1.-Goal"><strong>1. Goal</strong><a class="anchor-link" href="#1.-Goal">&#182;</a></h2><hr>
 <p>The purpose of the present notebook is to define the components of the stock portofolio, retrieve the stocks value data by using the Yahoo Finance API, calculate the correspondent returns and optimize the portfolio composition to maximize the return.</p>
 
@@ -14633,6 +14660,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="collection"></a></p>
 <hr>
 <h2 id="2.-Data-Collection"><strong>2. Data Collection</strong><a class="anchor-link" href="#2.-Data-Collection">&#182;</a></h2><hr>
 
@@ -15940,6 +15968,7 @@ memory usage: 717.2 KB
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="eda"></a></p>
 <hr>
 <h2 id="3.-Data-Exploration"><strong>3. Data Exploration</strong><a class="anchor-link" href="#3.-Data-Exploration">&#182;</a></h2><hr>
 <p>Stock value data retrieved from Yahoo Finance was explored through some simple visualizations.</p>
@@ -15956,7 +15985,7 @@ memory usage: 717.2 KB
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">plot_stock_value</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">stock_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plots a list of stocks from a given dataframe of stocks values over time. Dates should be df&#39;s index.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -33588,6 +33617,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="preparation"></a></p>
 <hr>
 <h2 id="4.-Data-Preparation"><strong>4. Data Preparation</strong><a class="anchor-link" href="#4.-Data-Preparation">&#182;</a></h2><hr>
 <p>Stock data value was cleaned and processed to calculate the <strong>daily returns</strong> which serves as a basis for the portfolio optimization.</p>
@@ -33602,7 +33632,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="4.1-Data-Cleaning"><strong>4.1 Data Cleaning</strong><a class="anchor-link" href="#4.1-Data-Cleaning">&#182;</a></h4><p>The stock data from Saudi Aramco (2222.SR) is one day off from the rest of the stocks in the portfolio. For sake of consistency and simplicity, the close values of 2222.SR were aligned with the rest of stocks.</p>
+<h4 id="4.1-Data-Cleaning-"><strong>4.1 Data Cleaning</strong> <a class="anchor" id="cleaning" /><a class="anchor-link" href="#4.1-Data-Cleaning-">&#182;</a></h4><p>The stock data from Saudi Aramco (2222.SR) is one day off from the rest of the stocks in the portfolio. For sake of consistency and simplicity, the close values of 2222.SR were aligned with the rest of stocks.</p>
 
 </div>
 </div>
@@ -43547,7 +43577,7 @@ L 337.740057 1095.058125
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="4.2-Calculation-of-the-Daily-Returns"><strong>4.2 Calculation of the Daily Returns</strong><a class="anchor-link" href="#4.2-Calculation-of-the-Daily-Returns">&#182;</a></h4><p>Based of the close value for each stock, the daily returns were calculated. To do so a function for getting the daily returns was defined.</p>
+<h4 id="4.2-Calculation-of-the-Daily-Returns-"><strong>4.2 Calculation of the Daily Returns</strong> <a class="anchor" id="returns" /><a class="anchor-link" href="#4.2-Calculation-of-the-Daily-Returns-">&#182;</a></h4><p>Based of the close value for each stock, the daily returns were calculated. To do so a function for getting the daily returns was defined.</p>
 
 </div>
 </div>
@@ -43563,7 +43593,7 @@ L 337.740057 1095.058125
 <div class=" highlight hl-python"><pre><span></span><span class="c1"># Function to get daily returns</span>
 
 <span class="k">def</span> <span class="nf">get_daily_returns</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list of daily returns of a pandas series of stock data values.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -53032,7 +53062,7 @@ L 371.257347 1095.058125
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="4.3-Optimization-of-the-Stocks-Portfolio"><strong>4.3 Optimization of the Stocks Portfolio</strong><a class="anchor-link" href="#4.3-Optimization-of-the-Stocks-Portfolio">&#182;</a></h4><p>Once the daily returns were calculated, the weight of each stock was optimized in the portfolio to maximize the return thereof using Convex optimization. This part of the analysis is based on <a href="https://github.com/quantopian/research_public/blob/master/research/Markowitz-blog.ipynb">Starke, Edwards & Wiecki (2016)</a>.</p>
+<h4 id="4.3-Optimization-of-the-Stocks-Portfolio-"><strong>4.3 Optimization of the Stocks Portfolio</strong> <a class="anchor" id="optimization" /><a class="anchor-link" href="#4.3-Optimization-of-the-Stocks-Portfolio-">&#182;</a></h4><p>Once the daily returns were calculated, the weight of each stock was optimized in the portfolio to maximize the return thereof using Convex optimization. This part of the analysis is based on <a href="https://github.com/quantopian/research_public/blob/master/research/Markowitz-blog.ipynb">Starke, Edwards & Wiecki (2016)</a>.</p>
 
 </div>
 </div>
@@ -53063,7 +53093,7 @@ L 371.257347 1095.058125
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">random_portfolio</span><span class="p">(</span><span class="n">returns</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 <span class="sd">    Returns the mean and standard deviation of returns for a random portfolio.</span>
 
 <span class="sd">    Parameters</span>
@@ -53113,7 +53143,7 @@ L 371.257347 1095.058125
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">optimal_portfolio</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">portfolios</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Optimization of a portfolio&#39;s expected return by minimizing overall instrument&#39;s risks.</span>
 
 <span class="sd">    Parameters</span>
@@ -57127,7 +57157,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="4.4-Historical-Returns-of-the-Optimized-Portfolio"><strong>4.4 Historical Returns of the Optimized Portfolio</strong><a class="anchor-link" href="#4.4-Historical-Returns-of-the-Optimized-Portfolio">&#182;</a></h4><p>After the portfolio was optimized, the historical returns thereof were calculated based on the stock close value over time and the optimized weights.</p>
+<h4 id="4.4-Historical-Returns-of-the-Optimized-Portfolio-"><strong>4.4 Historical Returns of the Optimized Portfolio</strong> <a class="anchor" id="historical" /><a class="anchor-link" href="#4.4-Historical-Returns-of-the-Optimized-Portfolio-">&#182;</a></h4><p>After the portfolio was optimized, the historical returns thereof were calculated based on the stock close value over time and the optimized weights.</p>
 
 </div>
 </div>
@@ -61176,7 +61206,7 @@ z
 <div class=" highlight hl-python"><pre><span></span><span class="c1"># Code for composing the Python Requirements File</span>
 
 <span class="k">def</span> <span class="nf">get_imported_packages</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to get imported packages to current notebook.</span>
 
 <span class="sd">    Parameters</span>
@@ -61200,7 +61230,7 @@ z
 
 
 <span class="k">def</span> <span class="nf">generate_requirements</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">modules</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to print a set of packages into a text file.</span>
 
 <span class="sd">    Parameters</span>
