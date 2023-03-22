@@ -14620,6 +14620,32 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <hr>
+<h2 id="Table-of-Contents"><strong>Table of Contents</strong><a class="anchor-link" href="#Table-of-Contents">&#182;</a></h2><hr>
+<ol>
+<li><a href="#goal"><strong>Goal</strong></a><br></li>
+<li><a href="#modeling"><strong>Data Modeling</strong></a><br>  <ul>
+<li><a href="#model"><strong>Model</strong></a><br></li>
+<li><a href="#lr"><strong>Learning Rate Optimization</strong></a><br>  </li>
+<li><a href="#training"><strong>Model Training</strong></a><br>  </li>
+<li><a href="#predictions"><strong>Predictions</strong></a><br>  </li>
+</ul>
+</li>
+<li><a href="#evaluation"><strong>Evaluation</strong></a><br></li>
+<li><a href="#conclusions"><strong>Conclusions</strong></a><br></li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="goal"></a></p>
+<hr>
 <h2 id="1.-Goal"><strong>1. Goal</strong><a class="anchor-link" href="#1.-Goal">&#182;</a></h2><hr>
 <p>The purpose of the present notebook is to build, train and evaluate a Recurrent Neural Network to predict the return of the optimized stocks portfolio built in the <a href="https://github.com/DanielEduardoLopez/PortfolioReturn/blob/main/1_PortfolioReturn_DataCollectionPrep.ipynb">previous section.</a></p>
 
@@ -14633,6 +14659,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="modeling"></a></p>
 <hr>
 <h2 id="2.-Data-Modeling"><strong>2. Data Modeling</strong><a class="anchor-link" href="#2.-Data-Modeling">&#182;</a></h2><hr>
 <p>In the present section, a Recurrent Neural Network was built and trained to predict the return of the optimized stocks portfolio.</p>
@@ -14667,6 +14694,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-python"><pre><span></span><span class="c1"># Libraries installation</span>
 <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pip</span><span class="o">==</span><span class="mf">21.2</span> <span class="c1"># Pip version for successfully using the method get_installed_distributions</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">keras</span>
 <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow</span>
 <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tensorflow_addons</span>
 </pre></div>
@@ -15395,7 +15423,7 @@ memory usage: 11.5+ KB
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Model"><strong>Model</strong><a class="anchor-link" href="#Model">&#182;</a></h4><p>In order to predict the Portfolio Return, a RNN with the following architecture was proposed:</p>
+<h4 id="Model-"><strong>Model</strong> <a class="anchor" id="model" /><a class="anchor-link" href="#Model-">&#182;</a></h4><p>In order to predict the Portfolio Return, a RNN with the following architecture was proposed:</p>
 <ol>
 <li>A first <strong>Lambda layer</strong> to convert the input windowed dataset into a tensor.</li>
 <li>A first <strong>Long Short-Term Memory layer</strong> with 256 units.</li>
@@ -15522,7 +15550,7 @@ _________________________________________________________________
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Learning-Rate-Optimization"><strong>Learning Rate Optimization</strong><a class="anchor-link" href="#Learning-Rate-Optimization">&#182;</a></h4><p>Furthermore, in order to get better predictions, the <strong>learning rate was optimized</strong>. To do so, a pivot or initial learning rate of $1\times10^{-8}$ was defined, which was slightly incremented by each epoch with the help of a learning rate scheduler from Tensorflow.</p>
+<h4 id="Learning-Rate-Optimization-"><strong>Learning Rate Optimization</strong> <a class="anchor" id="lr" /><a class="anchor-link" href="#Learning-Rate-Optimization-">&#182;</a></h4><p>Furthermore, in order to get better predictions, the <strong>learning rate was optimized</strong>. To do so, a pivot or initial learning rate of $1\times10^{-8}$ was defined, which was slightly incremented by each epoch with the help of a learning rate scheduler from Tensorflow.</p>
 <p>On the other hand, as optimizer, the <strong>Stochastic Gradient Descent</strong> algorithm was used with an arbitrarily momentum of 0.9 in order to help accelerate the gradient vectors in the right directions and lead the model to a faster learning.</p>
 
 </div>
@@ -17224,7 +17252,7 @@ $$5\times10^{-5}$$
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Model-Training"><strong>Model Training</strong><a class="anchor-link" href="#Model-Training">&#182;</a></h4><p>Once the architecture of the RNN was defined and an optimal learning rate was selected, the model was trained using the <strong>Huber loss</strong> as the loss function, the <strong>Stochastic Gradient Descent with Momentum</strong> as the optimizer and keeping track of the <strong>MSE</strong>, <strong>MAE</strong>, and $r^2$ metrics too. 300 epochs were used.</p>
+<h4 id="Model-Training-"><strong>Model Training</strong> <a class="anchor" id="training" /><a class="anchor-link" href="#Model-Training-">&#182;</a></h4><p>Once the architecture of the RNN was defined and an optimal learning rate was selected, the model was trained using the <strong>Huber loss</strong> as the loss function, the <strong>Stochastic Gradient Descent with Momentum</strong> as the optimizer and keeping track of the <strong>MSE</strong>, <strong>MAE</strong>, and $r^2$ metrics too. 300 epochs were used.</p>
 
 </div>
 </div>
@@ -17954,7 +17982,7 @@ Epoch 300/300
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Predictions"><strong>Predictions</strong><a class="anchor-link" href="#Predictions">&#182;</a></h4><p>To generate the predictions, the original time series data was first split into a training and a testing set. To do so, the first 80% of the data was used for the training set and the remaining 20% for the testing set.</p>
+<h4 id="Predictions-"><strong>Predictions</strong> <a class="anchor" id="predictions" /><a class="anchor-link" href="#Predictions-">&#182;</a></h4><p>To generate the predictions, the original time series data was first split into a training and a testing set. To do so, the first 80% of the data was used for the training set and the remaining 20% for the testing set.</p>
 
 </div>
 </div>
@@ -18971,7 +18999,7 @@ memory usage: 6.9+ KB
 <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{:,.2%}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">])</span>
 <span class="c1">#ax.axhline(y = 0, color = &#39;black&#39;, linewidth = 1, linestyle = &#39;--&#39;)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">plotfontcolor</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Fig8_ReturnPredictions.png&#39;</span><span class="p">,</span>  <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Fig8_Predictions.png&#39;</span><span class="p">,</span>  <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
@@ -20545,6 +20573,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="evaluation"></a></p>
 <hr>
 <h2 id="3.-Evaluation"><strong>3. Evaluation</strong><a class="anchor-link" href="#3.-Evaluation">&#182;</a></h2><hr>
 <p>In the present section, the predictions of the Recurrent Neural Network were evaluated using the RMSE, MAE, and $r^{2}$.</p>
@@ -21041,7 +21070,7 @@ R-squared: -2.27236
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Fig9_MetricsReturns.png&#39;</span><span class="p">,</span>  <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Fig9_Metrics.png&#39;</span><span class="p">,</span>  <span class="n">bbox_inches</span> <span class="o">=</span> <span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
@@ -22883,7 +22912,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As expectable, the RMSE and MAE stabilized after some epochs. However, it is noteworthy that the $r^{2}$ is always negative and have a considerable fluctuation over the epochs. Again, this suggests that the model is unsatisfactory.</p>
+<p>In view of the plot above, the RNN has predicted a constant return of 0.7362% for all the time points, which suggests that the model was not able to catch a pattern from the data. In comparison, the mean return of the portfolio was 0.292%. So, the RNN yielded a higher prediction.</p>
 
 </div>
 </div>
@@ -22895,6 +22924,7 @@ z
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><a class="anchor" id="conclusions"></a></p>
 <hr>
 <h2 id="4.-Conclusions"><strong>4. Conclusions</strong><a class="anchor-link" href="#4.-Conclusions">&#182;</a></h2><hr>
 <p>The trained model was unable to recognize a pattern from the historical returns of the optimized portfolio. In this sense, even though low values of RMSE and MAE were obtained due to the scale of the returns, a negative $r^{2}$ was yielded by the model. In consequence, the model generated worse predictions than the mean of the historical returns.</p>
