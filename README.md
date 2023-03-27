@@ -14,6 +14,26 @@
 
 
 ____
+### **Contents**
+
+1. [Introduction](#intro)<br>
+2. [General Objective](#objective)<br>
+3. [Research Question](#question)<br>
+4. [Hypothesis](#hypothesis)<br>
+5. [Abridged Methodology](#methodology)<br>
+6. [Main Results](#results)<br>
+	6.1 [Data Collection](#collection)<br>
+	6.2 [Data Exploration](#eda)<br>
+	6.3 [Data Preparation](#preparation)<br>
+	6.4 [Data Modeling](#modeling)<br>
+	6.5 [Evaluation](#evaluation)<br>
+7. [Conclusions](#conclusions)<br>
+8. [Bibliography](#bibliography)<br>
+9. [Description of Files in Repository](#files)<br>
+
+
+____
+<a class="anchor" id="intro"></a>
 ### **1. Introduction**
 A **portfolio** is a set of financial instruments that belongs to a investor, and where each instrument has a given weight within it (i.e. the percentage in the portfolio value). Modern Portfolio Theory (MPT) allows to establish a relationship framework between risk and return for an adequate decision-making and, in particular, to maximize the return while minimizing the risk by means of an efficient diversification accomplished by the selection of different instruments with distinct returns, risks and values (Baca Urbina & Marcelino Aranda, 2016).
 
@@ -24,15 +44,19 @@ Even though the Time Series Analysis has been traditionally used to forecast por
 For simplicity, in the present project, only 10 stocks selected from the biggest companies in the world by market capitalization (Johnston, 2022) were used to build the portfolio, with the goal of using RNN to predict its returns over time and assess the accuracy of the predictions.
 
 ____
+<a class="anchor" id="objective"></a>
 ### **2. General Objective**
 To predict the return of a stocks portfolio return using Recurrent Neural Networks and assess its accuracy.
 ____
+<a class="anchor" id="question"></a>
 ### **3. Research Question**
 What is the return of a stocks portfolio according to a model based on Recurrent Neural Networks and its accuracy?
 ____
+<a class="anchor" id="hypothesis"></a>
 ### **4. Hypothesis**
 The prediction of a stocks portfolio return using Recurrent Neural Networks will yield a R<sup>2</sup> larger than 70%.
 ____
+<a class="anchor" id="methodology"></a>
 ### **5. Abridged Methodology**
 The methodology of the present study is based on Rollin’s Foundational Methodology for Data Science (Rollins, 2015):
 
@@ -45,8 +69,10 @@ The methodology of the present study is based on Rollin’s Foundational Methodo
 6. **Evaluation**: The comparison among predicted and actual returns were primarily evaluated through the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination ( $r^{2}$ ).
 
 ___
+<a class="anchor" id="results"></a>
 ### **6. Main Results**
 
+<a class="anchor" id="collection"></a>
 #### **6.1 Data Collection**
 For simplicity, in the present project, only 10 stocks selected from the biggest companies in the world by market capitalization <a href="https://www.investopedia.com/biggest-companies-in-the-world-by-market-cap-5212784">(Johnston, 2022)</a> were used to build the portfolio:
 1. Apple Inc. (**AAPL**)
@@ -62,6 +88,7 @@ For simplicity, in the present project, only 10 stocks selected from the biggest
 
 On the other hand, stock value data was retrieved from the previous three years, i.e., **from 2020/01/01 to 2023/01/09** by using the Python library yfinance.
 
+<a class="anchor" id="eda"></a>
 #### **6.2 Data Exploration**
 Stock value data retrieved from Yahoo Finance was explored through some simple visualizations.
 
@@ -73,6 +100,7 @@ The EDA suggests that **the market has been bearish since mids 2021**. At the en
 
 Notwithstanding the above, the data collected from *Yahoo Finance* through **yfinance** seems to be complete and consistent.
 
+<a class="anchor" id="preparation"></a>
 #### **6.3 Data Preparation**
 Stock data value was cleaned and processed to calculate the **daily close value returns** which serves as a basis for the portfolio optimization. The **descriptive statistics of the daily returns** for each asset are as follows:
 
@@ -133,6 +161,7 @@ Finally, the historical values of the optimized portfolio are as follows:
 
 Likewise, the historical values of the optimized portfolio mirror the performance of **TSLA** for the reasons stated above.
 
+<a class="anchor" id="modeling"></a>
 #### **6.4 Data Modeling**
 A Recurrent Neural Network was built and trained to predict the return of the optimized stocks portfolio. The following architecture was proposed:
 
@@ -308,7 +337,7 @@ Then, the returns were calculated based on the predicted values of the portfolio
 
 So, in view of the figure above, by training the *second model* with the historical value data instead of the historical return data, the proposed architecture was able to yield predictions that somewhat resemble the actual returns of the portfolio.
 
-
+<a class="anchor" id="evaluation"></a>
 #### **6.5 Evaluation**
 The predictions of the Recurrent Neural Networks were evaluated using the Root Mean Squared Error (RMSE), the Mean Absolute Error (MAE), and Coefficient of Determination
 ( $r^{2}$ ).
@@ -360,6 +389,7 @@ Coefficient of Determination ( $r^{2}$ ) | -0.19192
 Unfortunately, when comparing the predicted with the actual returns, the evaluation metrics yielded low scores. It is noteworthy that the $r^{2}$ had a negative value, which indicated that the predicted returns were worse than the average of the historical values too. However, it is also important to stress that the return evaluation metrics were better for the *second model* than for the *first one*. So, the *second model* still represents an improvement over the model trained directly with the historical return data. 
 
 ___
+<a class="anchor" id="conclusions"></a>
 ### **7. Conclusions**
 Unlike in the model trained directly with the return data, the RNN model trained with the historical values of the optimized portfolio was able to recognize a pattern thereof.  In this sense, low scores of RMSE and MAE were obtained and an acceptable $r^{2}$ of about 75% was yielded by the model, which was higher than the one hypothesed at the begining of this project. In consequence, the model generated better predictions than using the mean of the historical values of the portfolio.
 
@@ -368,6 +398,7 @@ Notwithstanding with the above, when comparing the estimated returns based on th
 In this sense, the model still has important opportunities areas and as future perspectives, it is suggested to perform more epochs to allow the model to better learn the data, to fine tune the hyperparameters thereof, to change the size of the windowed dataset, and to further change the architecture of the model if necessary. The purpose is that by predicting the futures values of the portfolio with a higher accuracy, the more accurate the predicted returns will be.
 
 ___
+<a class="anchor" id="bibliography"></a>
 ### **8. Bibliography**
 - **Baca-Urbina, G., & Marcelino-Aranda, M. (2016)**. *Ingeniería financiera*. Mexico City: Grupo Editorial Patria.
 - **DiPietro, R. & Hager, G. D. (2020)**. Deep learning: RNNs and LSTM. In S. K. Zhou, D. Rueckert & G. Fichtinger (Eds.), *Handbook of Medical Image Computing and Computer Assisted Intervention* (pp. 503-519). The Elsevier and MICCAI Society Book Series. https://doi.org/10.1016/B978-0-12-816176-0.00026-0
@@ -378,6 +409,7 @@ ___
 - **Starke, T., Edwards, D. & Wiecki, T. (2016)**. *A tutorial on Markowitz portfolio optimization in Python using cvxopt*. https://github.com/quantopian/research_public/blob/master/research/Markowitz-blog.ipynb
 
 ___
+<a class="anchor" id="files"></a>
 ### **9. Description of Files in Repository**
 File | Description 
 --- | --- 
